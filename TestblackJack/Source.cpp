@@ -70,63 +70,77 @@ account create();
 void play(vector<player>&);
 void clear(vector<card>&);
 void dealer_play(player&);
-void displayMenu();
+/*void displayMenu();
 void displayRules();
+*/
+class Menu {
+public:
+	void displayRules() {
+		cout << "The rules of blackjack: You need to know the card values to know how to play 21. Cards 2-10 are worth the value of the number on the face of the card. Numbered cards are worth the corresponding number indicated on the card. Face cards (those with pictures on them) are worth 10, except for the Ace, which is worth 1 or 11. A picture combined with an Ace is Blackjack (a value of 21). The most important blackjack rule is simple: beat the dealer’s hand without going over 21. If you get 21 points exactly on the deal, that is called a “blackjack.” When you’re dealt a blackjack 21, it’s customary to pay out 3:2 or 2:1. That means you win $300 for ever $200 bet at 3:2, or $200 for every $100 bet at 2:1. Clearly. 2:1 is a better payout. Some casinos have moved this down to 6:5 or 7:5, however, this means you’ll get considerably less money over the long haul. A game that pays 1:1 on any kind of a blackjack is usually not even worth looking at. Whether you’re at a land-based casino or playing online blackjack, the gambling table is always laid out the same way. When you learn how to play 21, you will find each player has his or her own assigned betting area, laid out on the table for each seat position. The playing area includes a space for his/her cards, a betting area, and possibly an insurance field or location for a double down bet. The dealer, likewise, has a designated area for his or her cards, plus a “shoe” containing at least one deck of cards. A shoe is a box that might include an automated shuffler to randomly distribute a card each time the dealer removes one for the deal. Traditional land - based casinos, as well as online blackjack casinos, will use between oneand as many as eight decks per game.This helps to thwart those who might be counting cards or are considered “advantage” players who know how to manipulate blackjack rules.While counting cards is legal, a casino will ban anyone it considers to be a highly skilled player capable of imposing an advantage over the house in one or more casino games. Counting cards essentially is the act of tracking the number of high and low - value cards used to better predict a more likely outcome on a particular hand.Now that you know the basic tools of the game, it’s time to examine how to play.The blackjack rules assign numerical blackjack card values to every card. https://www.blackjack.org/blackjack-rules/ " << endl;
+	};
+	void displayMenu() {
+		cout << "Welcome to the game of Blackjack!" << endl;
+		cout << "Please select an option below." << endl;
+		cout << "1) Rules" << endl;
+		cout << "2) Play" << endl;
+	}
+};
 
 int main() {
-	unsigned int time_seed = time(0); //so we can get a random number
-	srand(time_seed); //seeding the random number
-	player user; //creates a player called user
-	player dealer; //creates the dealer
-	vector<player> players; //creates a vector of players
-	char input; //for the Input
+	unsigned int time_seed = time(0); 
+	srand(time_seed); 
+	player user; 
+	player dealer; 
+	vector<player> players; 
+	char input; 
 
-	dealer.info.username = "Dealer"; //sets up the dealer info
-	players.push_back(dealer); //puts the dealer in the vector
+	dealer.info.username = "Dealer"; 
+	players.push_back(dealer); 
 
-	int menu; // so we can take in input
+	int menu; 
 
 	do {
-		displayMenu(); //displays the menu
-		cin >> menu; //take in the user input
+		Menu MyMenu;
+		MyMenu.displayMenu(); 
+		cin >> menu; 
 
-		if (menu == 1) { //if the user wants to read the rules
-			displayRules(); //displays the rules
+		if (menu == 1) { 
+			MyMenu.displayRules(); 
 		}
-		else if (menu == 2) { //if the user wants to play
-			cout << "How many players(0-10)" << endl; //asks how many players
-			int numPlayers; //so we can take in how many players
-			cin >> numPlayers; //takes in the input
-			for (int i = 0; i < numPlayers; i++) { //cycles through the players
-				cout << "Are you a new player(N) or existing player(E)?" << endl; //asks if they are a new or existig player
-				cin >> input; //takes in their input
+		else if (menu == 2) { 
+			cout << "How many players(0-10)" << endl; 
+			int numPlayers; 
+			cin >> numPlayers; 
+			for (int i = 0; i < numPlayers; i++) { 
+				cout << "Are you a new player(N) or existing player(E)?" << endl; 
+				cin >> input; 
 
-				if (input == 'N' || input == 'n') { //if they are new
-					user.info = create(); //creates new account info
-					save(user); //saves the player
-					players.push_back(user); //pushes the player on the vector
+				if (input == 'N' || input == 'n') { 
+					user.info = create(); 
+					save(user); 
+					players.push_back(user); 
 				}
-				else if (input == 'E' || input == 'e') { //if they are a existing player
-					user.info = load(); //loads their account info
-					players.push_back(user); //pushes them on the stack
+				else if (input == 'E' || input == 'e') { 
+					user.info = load(); 
+					players.push_back(user); 
 				}
 
 			}
 		}
-		else { //if the user can't follow directions
-			cout << "Please enter 0-10" << endl; //reiterates their only options
-			menu = 0; //resets menu
-			cin.ignore(); //ignores what's in the buffer
+		else { 
+			cout << "Please enter 0-10" << endl; 
+			menu = 0; 
+			cin.ignore(); 
 		}
-	} while (menu != 10); //while they don't choose play we will repeat this until we finish the never ending story
+	} while (menu != 10); 
 
-	bool cond = false; //so we can ask if they want to continue
+	bool cond = false; 
 	int size = players.size();
 	do {
 		for (int i = 1; i < players.size(); i++) {
-			if (players[i].info.money < 5) { //checks to see if they player has any money if not they can add more
+			if (players[i].info.money < 5) { 
 				cout << players[i].info.username << " is currently out of money. Would you like to add some, yes(Y) or (N)?" << endl; //Lets them know they are out of funds and if they want to add some
-				cin >> input; //takes in input
+				cin >> input; 
 				if (input == 'Y' || input == 'y') { //if they say yes
 					cout << "How much would you like to add?" << endl; //how much
 					cin >> players[i].info.money; //takes it in
@@ -159,15 +173,19 @@ int main() {
 /**
 Simple method that displays the rules of the game only
 */
+/*class Menu{
+public:
 void displayRules() {
 	cout << "The rules of blackjack: You need to know the card values to know how to play 21. Cards 2-10 are worth the value of the number on the face of the card. Numbered cards are worth the corresponding number indicated on the card. Face cards (those with pictures on them) are worth 10, except for the Ace, which is worth 1 or 11. A picture combined with an Ace is Blackjack (a value of 21). The most important blackjack rule is simple: beat the dealer’s hand without going over 21. If you get 21 points exactly on the deal, that is called a “blackjack.” When you’re dealt a blackjack 21, it’s customary to pay out 3:2 or 2:1. That means you win $300 for ever $200 bet at 3:2, or $200 for every $100 bet at 2:1. Clearly. 2:1 is a better payout. Some casinos have moved this down to 6:5 or 7:5, however, this means you’ll get considerably less money over the long haul. A game that pays 1:1 on any kind of a blackjack is usually not even worth looking at. Whether you’re at a land-based casino or playing online blackjack, the gambling table is always laid out the same way. When you learn how to play 21, you will find each player has his or her own assigned betting area, laid out on the table for each seat position. The playing area includes a space for his/her cards, a betting area, and possibly an insurance field or location for a double down bet. The dealer, likewise, has a designated area for his or her cards, plus a “shoe” containing at least one deck of cards. A shoe is a box that might include an automated shuffler to randomly distribute a card each time the dealer removes one for the deal. Traditional land - based casinos, as well as online blackjack casinos, will use between oneand as many as eight decks per game.This helps to thwart those who might be counting cards or are considered “advantage” players who know how to manipulate blackjack rules.While counting cards is legal, a casino will ban anyone it considers to be a highly skilled player capable of imposing an advantage over the house in one or more casino games. Counting cards essentially is the act of tracking the number of high and low - value cards used to better predict a more likely outcome on a particular hand.Now that you know the basic tools of the game, it’s time to examine how to play.The blackjack rules assign numerical blackjack card values to every card. https://www.blackjack.org/blackjack-rules/ " << endl;
 };
 void displayMenu() {
-	cout << "Welcome to the game of Blackjack!" << endl; //output
-	cout << "Please select an option below." << endl; //output
-	cout << "1) Rules" << endl; //output
-	cout << "2) Play" << endl; //output
+	cout << "Welcome to the game of Blackjack!" << endl;
+	cout << "Please select an option below." << endl;
+	cout << "1) Rules" << endl;
+	cout << "2) Play" << endl;
 }
+};
+*/
 /**
 Rules for the dealer. They hit on everything up to 17 including a soft 17
 */
