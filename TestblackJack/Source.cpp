@@ -55,10 +55,10 @@ int score(vector<card>);
 bool hasAce(vector<card>);
 void printCards(vector<card>);
 char printSuit(card);
-void doubleDown(player, player&);
+
 int winner(player, player&);
 void payout(player, player&);
-void split(player&, player&);
+
 void bet(player&);
 void insurance(vector<player>&);
 account load();
@@ -260,15 +260,15 @@ void play(vector<player> & players) {
 				*/
 				if (((players[i].hand[0].value >= 10 && players[i].hand[1].value >= 10) || players[i].hand[0].value == players[i].hand[1].value) && players[i].hand.size() == 2 && score(players[i].hand) == 10) {
 					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; //shows them their score
-					cout << "Would you like to Double Down(D), split(L),take a hit(H), or stay(S), default is to take a stay?" << endl; //ask them
+					cout << "Would you like to take a hit(H), or stand(S)?" << endl; //ask them
 				}
 				else if (((players[i].hand[0].value >= 10 && players[i].hand[1].value >= 10) || (players[i].hand[0].value == players[i].hand[1].value)) && players[i].hand.size() == 2) { //if they can split their cards
 					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; //shows them their score
-					cout << "Would you like to split(L) your cards, take a hit(H), or stay(S), default is to take a stay?" << endl; //ask them
+					cout << "take a hit(H), or stay(S)?"<< endl; //ask them
 				}
 				else if (players[i].hand.size() == 2 && score(players[i].hand) >= 9 && score(players[i].hand) <= 11 && !(hasAce(players[i].hand))) { //can they double down
 					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; //shows them their score
-					cout << "Would you like to Double Down(D), take a hit(H), or stay(S), default is to take a stay?" << endl; //asks them
+					cout << "take a hit(H), or stay(S)?" << endl; //asks them
 				}
 				else { //they can't do anything special
 					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; //shows them their score
@@ -276,14 +276,7 @@ void play(vector<player> & players) {
 				}
 				cin >> input; //takes in the input
 				switch (input) { //what did they choose?
-				case 'L': //they wanted to split
-					split(players[0], players[i]); //we split them
-					printCards(players[i].hand); //reprint their cards in case they forgot
-					break;
-				case 'D':
-					doubleDown(players[0], players[i]); //they double down
-					input = 'S'; //sets input to S since now they are done
-					break;
+				
 				case 'H':
 					players[i].hand.push_back(hitMe()); //we give them one more card for their hit
 					printCards(players[i].hand); //reprint their cards
@@ -499,65 +492,7 @@ void bet(player & user) {
 If the user chooses to split their cards
 The split hand is completely played here
 */
-void split(player & dealer, player & user) {
-	player split;
-	vector<player> players; //creates a new player for the split
-	players.push_back(dealer);
 
-	split.bet = user.bet; // takes the extra bet
-	user.info.money -= user.bet; //takes out the bet from the user money pile
-	split.hand.push_back(user.hand[0]); //takes the first card from the user and gives it to the split player
-	split.hand.push_back(deal()); //gives the split person a new card
-	user.hand[0] = deal(); //gives the user a new card
-	split.info.username = user.info.username;
-	players.push_back(split); //pushes the split player onto the vect
-
-	printCards(players[1].hand); //prints out the new cards
-
-	char input; //what the input is
-	do {
-		for (int i = 1; i < players.size(); i++) {
-			if (score(players[i].hand) > 21) { //if they bust
-				input = 'S'; //they are done
-			}
-			else {
-				cout << "Hit(H) or Stay(S):"; //otherwise we ask them if they want to take a hit
-				cin >> input; //take in their input
-			}
-			/**
-			If they take a hit the below code gives them a new card, prints out their new cards and their new score
-			*/
-			if (input == 'H' || input == 'h') {
-				players[i].hand.push_back(hitMe());
-				printCards(players[i].hand);
-				cout << players[i].info.username << " score is now " << score(players[i].hand) << endl;
-			}
-		}
-	} while (!(input == 'S' || input == 's')); //we repeat this until they stop taking hits or bust
-
-	dealer_play(players[0]); //dealer plays now since we need to take care of this now rather than later
-
-	/**
-	prints the split players cards and score again
-	*/
-	for (int i = 1; i < players.size(); i++) {
-		cout << players[i].info.username << " score: " << score(players[i].hand) << " Cards:" << endl;
-		printCards(players[i].hand);
-	}
-
-	/**
-	payouts the split player
-	*/
-	for (int i = 1; i < players.size(); i++) {
-		if (score(players[i].hand) > 21) {
-			cout << "You busted!"; //tells them they busted
-		}
-		payout(players[0], players[i]); //plays out the player
-	}
-}
-/**
-Typical pay out rules. If the player wins he gets 2 to 1 odds.
-*/
 void payout(player dealer, player & user) {
 	if (winner(dealer, user) == 1) { //if the player won
 		if (score(user.hand) == 21 && hasAce(user.hand) && user.hand.size() == 2) { //if the player has blackjack it's a 3:2 payout
@@ -598,27 +533,9 @@ int winner(player dealer, player & user) {
 		return -1;
 	}
 }
-/**
-Double down
-If the user chooses to double down we take in the new amount betted, deal one more card, and figure out if the user won
-takes in the user and dealer players and returns nothing
-*/
-void doubleDown(player dealer, player & user) {
-	int bet; //so we can store the new bet
-	do {
-		cout << "How much would you like to bet?" << endl; //asks how much they want to bet
-		cin >> bet; //takes it in
-	} while (!( bet <= user.info.money)); //we repeat this until they get it right
 
-	user.bet += bet; //add the new bet to the original
-	user.info.money -= bet; //takes out their double down bet from the money
-	user.hand.push_back(deal()); //gives the user one more card
-	payout(dealer, user); //pays out the player based on if he/she won
-}
-/**
-Returns the Character version of the suit
-Fairly self-explanatory...takes in a number between 0-4 and returns the suit based off that number
-*/
+
+
 char printSuit(card new_card) {
 	switch (new_card.suit) {
 	case 0:
