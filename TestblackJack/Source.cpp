@@ -1,9 +1,4 @@
-/**
-Game of Blackjack
-You can play with one or two players
-each player creaates a account if they don't have one and if they do they can load their existing data
-Each player and the dealer are dealt two cards, the dealers first card is face down
-*/
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -13,14 +8,14 @@ Each player and the dealer are dealt two cards, the dealers first card is face d
 #include <iomanip>
 using namespace std;
 
-//enum types for the card suits
+
 enum card_suit {
 	S, H, D, C
 };
 
 
 
-//Structures
+
 
 	struct account { 
 		string name; 
@@ -28,30 +23,28 @@ enum card_suit {
 		string username; 
 		string password; 
 
-		int money; //in case they decide to quit playing when they come back their money will be there may not use this but we'll see
+		int money; 
 
 
-		int wins; //games stats
-		int total_played; //game stats
-		double win_percentage; //game stats
+		int wins; 
+		int total_played; 
+		double win_percentage; 
 	};
 
-	struct card { //how the cards are stored
-		int value; //value of the card
-		card_suit suit; //suit of the card we have. Not really that important in this game but might as well have it
-		bool up; //for the dealer since one card is face down
+	struct card {
+		int value; 
+		card_suit suit; 
+		bool up; 
 	};
 
-	struct player { //basis of each player in the game including the dealer
-		account info; //player's account info
-		vector<card> hand; //the players hand
-		int bet; //how much the user is betting
-		int insurance_bet; //if they take the insurance
+	struct player { 
+		account info; 
+		vector<card> hand; 
+		int bet; 
+		int insurance_bet; 
 	};
 
 
-
-//prototypes
 card deal();
 card hitMe();
 int score(vector<card>);
@@ -70,9 +63,7 @@ account create();
 void play(vector<player>&);
 void clear(vector<card>&);
 void dealer_play(player&);
-/*void displayMenu();
-void displayRules();
-*/
+
 class Menu {
 public:
 	void displayRules() {
@@ -141,96 +132,70 @@ int main() {
 			if (players[i].info.money < 5) { 
 				cout << players[i].info.username << " is currently out of money. Would you like to add some, yes(Y) or (N)?" << endl; //Lets them know they are out of funds and if they want to add some
 				cin >> input; 
-				if (input == 'Y' || input == 'y') { //if they say yes
-					cout << "How much would you like to add?" << endl; //how much
-					cin >> players[i].info.money; //takes it in
+				if (input == 'Y' || input == 'y') { 
+					cout << "How much would you like to add?" << endl; 
+					cin >> players[i].info.money;
 				}
-				else { //if not we save their info and leave
-					save(players[i]); //saves info
-					players.erase(players.begin() + (i)); //erases player from vector
+				else { 
+					save(players[i]); 
+					players.erase(players.begin() + (i));
 					i--;
 
 				}
 			}
 
-			if (cond && players.size() > 1) {//if they have played at least once
+			if (cond && players.size() > 1) {
 				cout << players[i].info.username << " Would you like to keep playing(P) or quit(Q)" << endl;
-				cin >> input; //takes in input
-				if (input == 'q' || input == 'Q') { //player want to quit
-					save(players[i]); //saves info
-					players.erase(players.begin() + (i)); //erases player from vector
+				cin >> input; 
+				if (input == 'q' || input == 'Q') { 
+					save(players[i]); 
+					players.erase(players.begin() + (i)); 
 					i--;
 				}
 			}
 		}
-		play(players); //and we play
-		cond = true; //they finished one hand
+		play(players); 
+		cond = true; 
 	} while (players.size() > 1);
 	
 
 	return 0;
 }
-/**
-Simple method that displays the rules of the game only
-*/
-/*class Menu{
-public:
-void displayRules() {
-	cout << "The rules of blackjack: You need to know the card values to know how to play 21. Cards 2-10 are worth the value of the number on the face of the card. Numbered cards are worth the corresponding number indicated on the card. Face cards (those with pictures on them) are worth 10, except for the Ace, which is worth 1 or 11. A picture combined with an Ace is Blackjack (a value of 21). The most important blackjack rule is simple: beat the dealer’s hand without going over 21. If you get 21 points exactly on the deal, that is called a “blackjack.” When you’re dealt a blackjack 21, it’s customary to pay out 3:2 or 2:1. That means you win $300 for ever $200 bet at 3:2, or $200 for every $100 bet at 2:1. Clearly. 2:1 is a better payout. Some casinos have moved this down to 6:5 or 7:5, however, this means you’ll get considerably less money over the long haul. A game that pays 1:1 on any kind of a blackjack is usually not even worth looking at. Whether you’re at a land-based casino or playing online blackjack, the gambling table is always laid out the same way. When you learn how to play 21, you will find each player has his or her own assigned betting area, laid out on the table for each seat position. The playing area includes a space for his/her cards, a betting area, and possibly an insurance field or location for a double down bet. The dealer, likewise, has a designated area for his or her cards, plus a “shoe” containing at least one deck of cards. A shoe is a box that might include an automated shuffler to randomly distribute a card each time the dealer removes one for the deal. Traditional land - based casinos, as well as online blackjack casinos, will use between oneand as many as eight decks per game.This helps to thwart those who might be counting cards or are considered “advantage” players who know how to manipulate blackjack rules.While counting cards is legal, a casino will ban anyone it considers to be a highly skilled player capable of imposing an advantage over the house in one or more casino games. Counting cards essentially is the act of tracking the number of high and low - value cards used to better predict a more likely outcome on a particular hand.Now that you know the basic tools of the game, it’s time to examine how to play.The blackjack rules assign numerical blackjack card values to every card. https://www.blackjack.org/blackjack-rules/ " << endl;
-};
-void displayMenu() {
-	cout << "Welcome to the game of Blackjack!" << endl;
-	cout << "Please select an option below." << endl;
-	cout << "1) Rules" << endl;
-	cout << "2) Play" << endl;
-}
-};
-*/
-/**
-Rules for the dealer. They hit on everything up to 17 including a soft 17
-*/
+
 void dealer_play(player & dealer) {
-	if ((score(dealer.hand) < 17) || (score(dealer.hand) == 17 && hasAce(dealer.hand))) { //dealer hits at less than 17 and on soft 17
+	if ((score(dealer.hand) < 17) || (score(dealer.hand) == 17 && hasAce(dealer.hand))) { 
 		dealer.hand.push_back(hitMe()); 
 	}
 }
 
 void play(vector<player> & players) {
-	char input; //for our input
+	char input; 
 
-	for (int i = 1; i < players.size(); i++) { //cycles through the players
-		bet(players[i]); //players bet here
-		cout << "Money: " << players[i].info.money << setw(10) << "Bet: " << players[1].bet << endl; //display their money and bet amount
+	for (int i = 1; i < players.size(); i++) { 
+		bet(players[i]); 
+		cout << "Money: " << players[i].info.money << setw(10) << "Bet: " << players[1].bet << endl; 
 	}
 
-	/**the below function goes through each player and deals them two cards. To make it more realistic
-	I actually went through every player and gave them one card a time. So it starts with the dealer
-	*/
+	
 	for (int i = 0; i < (players.size() * 2); i++) {
 		players[(i % players.size())].hand.push_back(deal());
-		if ((i % players.size()) == 0 && (i % 2) == 0) { //the dealers first card
-			players[(i % players.size())].hand[(i % 2)].up = false; //is set to false since it's face down
+		if ((i % players.size()) == 0 && (i % 2) == 0) { 
+			players[(i % players.size())].hand[(i % 2)].up = false; 
 		}
 	}
-	/**
-	The below function shows each players score but the dealers
-	*/
+	
 	for (int i = 1; i < players.size(); i++) {
 		cout << players[i].info.username << " has: " << score(players[i].hand) << setw(10) << endl;
 	}
 
-	/**
-	The below function displays each persons cards
-	*/
+	
 	for (int i = 0; i < players.size(); i++) {
 		cout << players[i].info.username << " Cards:" << endl;
 		printCards(players[i].hand);
 	}
 
-	/**
-	The below function actually consists of the playing
-	*/
-	bool cont = true; //we will use this
+	
+	bool cont = true; 
 	for (int i = 1; i < players.size(); i++) { 
 		do {
 			if (players[0].hand[1].value == 1 && cont) { //if the dealer has an ace and cont is true - basically this only happens the first time if the dealer doesn't have blackjack
@@ -238,7 +203,7 @@ void play(vector<player> & players) {
 				if (score(players[0].hand) == 21) { //checks to see if the dealer has blackjack - we know the first card is an A
 					players[0].hand[0].up = true; //if they do we set the first card to face up
 
-					printCards(players[0].hand); //prints the dealers cards
+					printCards(players[0].hand); 
 
 					/**
 					The below function cycles through the players and pays them out since they lost
@@ -304,7 +269,7 @@ void play(vector<player> & players) {
 		} while (!(input == 'S' || input == 's')); 
 	}
 
-	dealer_play(players[0]); //now the dealer plays
+	dealer_play(players[0]); 
 
 	players[0].hand[0].up = true; //now the everybody can see the first card
 
@@ -316,9 +281,7 @@ void play(vector<player> & players) {
 		printCards(players[i].hand);
 	}
 
-	/**
-	The below method pays everybody out
-	*/
+	
 	for (int i = 1; i < players.size(); i++) {
 		if (score(players[i].hand) > 21) { 
 			cout << "You busted! ";
