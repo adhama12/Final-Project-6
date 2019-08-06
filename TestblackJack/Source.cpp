@@ -51,10 +51,8 @@ int score(vector<card>);
 bool hasAce(vector<card>);
 void printCards(vector<card>);
 char printSuit(card);
-
 int winner(player, player&);
 void payout(player, player&);
-
 void bet(player&);
 void insurance(vector<player>&);
 account load();
@@ -74,7 +72,7 @@ public:
 		cout << "Please select an option below." << endl;
 		cout << "1) Rules" << endl;
 		cout << "2) Play" << endl;
-	}
+	};
 };
 
 int main() {
@@ -91,12 +89,12 @@ int main() {
 	int menu; 
 
 	do {
-		Menu MyMenu;
-		MyMenu.displayMenu(); 
+		Menu myMenu;
+		myMenu.displayMenu(); 
 		cin >> menu; 
 
 		if (menu == 1) { 
-			MyMenu.displayRules(); 
+		myMenu.displayRules(); 
 		}
 		else if (menu == 2) { 
 			cout << "How many players(0-10)" << endl; 
@@ -119,11 +117,11 @@ int main() {
 			}
 		}
 		else { 
-			cout << "Please enter 0-10" << endl; 
+			cout << "Please enter 1-10" << endl; 
 			menu = 0; 
 			cin.ignore(); 
 		}
-	} while (menu != 10); 
+	} while (menu != 2); 
 
 	bool cond = false; 
 	int size = players.size();
@@ -328,8 +326,8 @@ account create() {
 
 	
 
-	cout << "Please enter how much money you'd like to deposit" << endl; 
-	cin >> user.money; 
+	cout << "You Start Off with 100 dollars!" << endl; 
+	user.money = 100; 
 
 	user.total_played = 0; 
 	user.wins = 0; 
