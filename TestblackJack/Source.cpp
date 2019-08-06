@@ -241,15 +241,15 @@ void play(vector<player> & players) {
 				}
 				else if (((players[i].hand[0].value >= 10 && players[i].hand[1].value >= 10) || (players[i].hand[0].value == players[i].hand[1].value)) && players[i].hand.size() == 2) { //if they can split their cards
 					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; 
-					cout << "take a hit(H), or stay(S)?"<< endl; 
+					cout << "take a hit(H), or stand(S)?"<< endl; 
 				}
 				else if (players[i].hand.size() == 2 && score(players[i].hand) >= 9 && score(players[i].hand) <= 11 && !(hasAce(players[i].hand))) { //can they double down
 					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; 
-					cout << "take a hit(H), or stay(S)?" << endl; 
+					cout << "take a hit(H), or stand(S)?" << endl; 
 				}
 				else { //they can't do anything special
 					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; 
-					cout << "Hit(H) or Stay(S), default is to take a stay?"; 
+					cout << "Hit(H) or Stand(S), default is to take a stand?"; 
 				}
 				cin >> input; //takes in the input
 				switch (input) {
