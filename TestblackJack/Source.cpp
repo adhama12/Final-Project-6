@@ -18,8 +18,7 @@ enum card_suit {
 	S, H, D, C
 };
 
-//Global Variables - yes I know they are bad but rather than pass this everywhere I put it here. Also allows me to change the min bet in one spot rather than everywhere
-int MIN_BET = 5; //Minimum bet is $5
+
 
 //Structures
 struct account { //account structure. This will store all the player information
@@ -92,7 +91,7 @@ int main() {
 			displayRules(); //displays the rules
 		}
 		else if (menu == 2) { //if the user wants to play
-			cout << "How many players(1 or 2)" << endl; //asks how many players
+			cout << "How many players(0-10)" << endl; //asks how many players
 			int numPlayers; //so we can take in how many players
 			cin >> numPlayers; //takes in the input
 			for (int i = 0; i < numPlayers; i++) { //cycles through the players
@@ -112,11 +111,11 @@ int main() {
 			}
 		}
 		else { //if the user can't follow directions
-			cout << "Please enter 1 or 2" << endl; //reiterates their only options
+			cout << "Please enter 0-10" << endl; //reiterates their only options
 			menu = 0; //resets menu
 			cin.ignore(); //ignores what's in the buffer
 		}
-	} while (menu != 2); //while they don't choose play we will repeat this until we finish the never ending story
+	} while (menu != 10); //while they don't choose play we will repeat this until we finish the never ending story
 
 	bool cond = false; //so we can ask if they want to continue
 	int size = players.size();
@@ -490,9 +489,9 @@ void bet(player & user) {
 	int bet;
 	do {
 		cout << user.info.username << endl; //so we know what player is betting
-		cout << "How much would you like to bet? (Must be greater than the " << MIN_BET << " and less than " << user.info.money << ")" << endl; //we tell them what they can bet
+		cout << "How much would you like to bet?" << endl;
 		cin >> bet; //takes in their bet
-	} while (!(bet >= MIN_BET && bet <= user.info.money)); //repeat until they get it right
+	} while (!(bet <= user.info.money)); //repeat until they get it right
 	user.info.money -= bet; //subtract the bet from their money stock pile
 	user.bet = bet; //set their bet
 }
@@ -607,9 +606,9 @@ takes in the user and dealer players and returns nothing
 void doubleDown(player dealer, player & user) {
 	int bet; //so we can store the new bet
 	do {
-		cout << "How much would you like to bet? (Must be greater than the " << MIN_BET << " and less than " << user.info.money << ")" << endl; //asks how much they want to bet
+		cout << "How much would you like to bet?" << endl; //asks how much they want to bet
 		cin >> bet; //takes it in
-	} while (!(bet > MIN_BET && bet <= user.bet && bet <= user.info.money)); //we repeat this until they get it right
+	} while (!( bet <= user.info.money)); //we repeat this until they get it right
 
 	user.bet += bet; //add the new bet to the original
 	user.info.money -= bet; //takes out their double down bet from the money
