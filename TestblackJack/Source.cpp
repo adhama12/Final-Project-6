@@ -21,32 +21,35 @@ enum card_suit {
 
 
 //Structures
-struct account { //account structure. This will store all the player information
-	string name; //The name on the account
-	string email; //the email address registered to this account
-	string username; //the username of this account
-	string password; //pasword for the account
 
-	int money; //in case they decide to quit playing when they come back their money will be there may not use this but we'll see
+	struct account { 
+		string name; 
+		string email; 
+		string username; 
+		string password; 
+
+		int money; //in case they decide to quit playing when they come back their money will be there may not use this but we'll see
 
 
-	int wins; //games stats
-	int total_played; //game stats
-	double win_percentage; //game stats
-};
+		int wins; //games stats
+		int total_played; //game stats
+		double win_percentage; //game stats
+	};
 
-struct card { //how the cards are stored
-	int value; //value of the card
-	card_suit suit; //suit of the card we have. Not really that important in this game but might as well have it
-	bool up; //for the dealer since one card is face down
-};
+	struct card { //how the cards are stored
+		int value; //value of the card
+		card_suit suit; //suit of the card we have. Not really that important in this game but might as well have it
+		bool up; //for the dealer since one card is face down
+	};
 
-struct player { //basis of each player in the game including the dealer
-	account info; //player's account info
-	vector<card> hand; //the players hand
-	int bet; //how much the user is betting
-	int insurance_bet; //if they take the insurance
-};
+	struct player { //basis of each player in the game including the dealer
+		account info; //player's account info
+		vector<card> hand; //the players hand
+		int bet; //how much the user is betting
+		int insurance_bet; //if they take the insurance
+	};
+
+
 
 //prototypes
 card deal();
@@ -149,7 +152,7 @@ int main() {
 		play(players); //and we play
 		cond = true; //they finished one hand
 	} while (players.size() > 1);
-	//!(input == 'q' || input == 'Q')
+	
 
 	return 0;
 }
@@ -157,11 +160,8 @@ int main() {
 Simple method that displays the rules of the game only
 */
 void displayRules() {
-	cout << "The rules of blackjack are fairly simple and your only opponent in the game is the dealer. Each player is dealt a two cards face up while the dealer only has one card face up. The goal is to have your two cards added total to be higher than the dealer’s two cards and under 21. If you go over 21 you “bust”, or lose, or if the dealers two cards added together are higher than yours you also lose. If your two card total is equal to the dealers then it is a “stand-off” or a tie. Cards values are usually face value, 2 is 2 and 10 is 10, while all face cards, jack/queen/king, are also 10. The only exception to this rule are Aces, they can take on the value of 1 or 11. To get your two cards total you simply add your two cards together. If you have any combination of an Ace or any card that is 10 points then you have what is called blackjack, 21 pts. Getting blackjack means you get paid more if you win. With all of that being said if you’re not satisfied with your two card total then you can take extra cards, called taking a hit, and for each hit you get you get one more card. The dealer does this as well but has a strict set of rules to follow on whether or not to take a hit. If a dealer’s hand is less than or equal to 16 or a “soft” 17, meaning they have an ace and a 6, they must take a hit. If it’s 17 or higher the dealer must stand. So now that we know the dealer rules there are a few options for users. As I stated earlier you can take hits to increase your card total. You may also split your cards and double down. Splitting can be done when your first two cards are of equal value and can only be split from the original hand, split hands cannot be split, the bet has to be equal or greater than the original bet for each hand. For each time you split you will receive and additional card for that hand and then you play like regular blackjack. Users may also double down which consists of a user placing another bet of equal or lesser value when their first two cards total is equal to 9, 10, or 11 without aces. After doubling down you will only get one additional card. Some of you may have realized that if the dealer gets a blackjack or 21 you pretty much always lose, unless you yourself have blackjack. There is a way around this and it’s called insurance. If the dealer is dealt an ace face up then the dealer will ask if you want to take out insurance, equal to half of your original bet, to insure your hand if the dealer has blackjack and only when he has blackjack and helps insure you don’t lose money if he does have blackjack, insurance pays 2 to 1 so your insurance bet will cover the loss of your hand if you bet half." << endl; //displays the rules
-}
-/**
-Simple method that displays the menu for the game only
-*/
+	cout << "The rules of blackjack: You need to know the card values to know how to play 21. Cards 2-10 are worth the value of the number on the face of the card. Numbered cards are worth the corresponding number indicated on the card. Face cards (those with pictures on them) are worth 10, except for the Ace, which is worth 1 or 11. A picture combined with an Ace is Blackjack (a value of 21). The most important blackjack rule is simple: beat the dealer’s hand without going over 21. If you get 21 points exactly on the deal, that is called a “blackjack.” When you’re dealt a blackjack 21, it’s customary to pay out 3:2 or 2:1. That means you win $300 for ever $200 bet at 3:2, or $200 for every $100 bet at 2:1. Clearly. 2:1 is a better payout. Some casinos have moved this down to 6:5 or 7:5, however, this means you’ll get considerably less money over the long haul. A game that pays 1:1 on any kind of a blackjack is usually not even worth looking at. Whether you’re at a land-based casino or playing online blackjack, the gambling table is always laid out the same way. When you learn how to play 21, you will find each player has his or her own assigned betting area, laid out on the table for each seat position. The playing area includes a space for his/her cards, a betting area, and possibly an insurance field or location for a double down bet. The dealer, likewise, has a designated area for his or her cards, plus a “shoe” containing at least one deck of cards. A shoe is a box that might include an automated shuffler to randomly distribute a card each time the dealer removes one for the deal. Traditional land - based casinos, as well as online blackjack casinos, will use between oneand as many as eight decks per game.This helps to thwart those who might be counting cards or are considered “advantage” players who know how to manipulate blackjack rules.While counting cards is legal, a casino will ban anyone it considers to be a highly skilled player capable of imposing an advantage over the house in one or more casino games. Counting cards essentially is the act of tracking the number of high and low - value cards used to better predict a more likely outcome on a particular hand.Now that you know the basic tools of the game, it’s time to examine how to play.The blackjack rules assign numerical blackjack card values to every card. https://www.blackjack.org/blackjack-rules/ " << endl;
+};
 void displayMenu() {
 	cout << "Welcome to the game of Blackjack!" << endl; //output
 	cout << "Please select an option below." << endl; //output
@@ -173,14 +173,10 @@ Rules for the dealer. They hit on everything up to 17 including a soft 17
 */
 void dealer_play(player & dealer) {
 	if ((score(dealer.hand) < 17) || (score(dealer.hand) == 17 && hasAce(dealer.hand))) { //dealer hits at less than 17 and on soft 17
-		dealer.hand.push_back(hitMe()); //dealer gets a card
+		dealer.hand.push_back(hitMe()); 
 	}
 }
-/**
-how we will play
-This method takes care of all the play portions of the game. Taking hits, splitting, double down, etc
-Takes in the vector of players by reference so we can make changes directly to the players
-*/
+
 void play(vector<player> & players) {
 	char input; //for our input
 
@@ -217,7 +213,7 @@ void play(vector<player> & players) {
 	The below function actually consists of the playing
 	*/
 	bool cont = true; //we will use this
-	for (int i = 1; i < players.size(); i++) { //we cycle through all the players since each player plays on their own
+	for (int i = 1; i < players.size(); i++) { 
 		do {
 			if (players[0].hand[1].value == 1 && cont) { //if the dealer has an ace and cont is true - basically this only happens the first time if the dealer doesn't have blackjack
 				insurance(players); //asks player if they want insurance
@@ -255,41 +251,39 @@ void play(vector<player> & players) {
 			As long as the players score is less than 21
 			*/
 			if (score(players[0].hand) <= 21) {
-				/**
-				The most complicated first - if they have a pair of 5's they can split, double down, hit, or stay
-				*/
+				
 				if (((players[i].hand[0].value >= 10 && players[i].hand[1].value >= 10) || players[i].hand[0].value == players[i].hand[1].value) && players[i].hand.size() == 2 && score(players[i].hand) == 10) {
-					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; //shows them their score
-					cout << "Would you like to take a hit(H), or stand(S)?" << endl; //ask them
+					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; 
+					cout << "Would you like to take a hit(H), or stand(S)?" << endl;
 				}
 				else if (((players[i].hand[0].value >= 10 && players[i].hand[1].value >= 10) || (players[i].hand[0].value == players[i].hand[1].value)) && players[i].hand.size() == 2) { //if they can split their cards
-					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; //shows them their score
-					cout << "take a hit(H), or stay(S)?"<< endl; //ask them
+					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; 
+					cout << "take a hit(H), or stay(S)?"<< endl; 
 				}
 				else if (players[i].hand.size() == 2 && score(players[i].hand) >= 9 && score(players[i].hand) <= 11 && !(hasAce(players[i].hand))) { //can they double down
-					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; //shows them their score
-					cout << "take a hit(H), or stay(S)?" << endl; //asks them
+					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; 
+					cout << "take a hit(H), or stay(S)?" << endl; 
 				}
 				else { //they can't do anything special
-					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; //shows them their score
-					cout << "Hit(H) or Stay(S), default is to take a stay?"; //asks them what they want to do
+					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; 
+					cout << "Hit(H) or Stay(S), default is to take a stay?"; 
 				}
 				cin >> input; //takes in the input
-				switch (input) { //what did they choose?
+				switch (input) {
 				
 				case 'H':
 					players[i].hand.push_back(hitMe()); //we give them one more card for their hit
 					printCards(players[i].hand); //reprint their cards
 					cout << players[i].info.username << " score is now " << score(players[i].hand) << endl; //reprint their score
 					break;
-				default: //this is here for people can't follow directions
-					input = 's'; //input is S
+				default: 
+					input = 's';
 				}
-				if (score(players[i].hand) > 21) { //if they bust they are done
+				if (score(players[i].hand) > 21) { 
 					input = 'S'; //so we can quit
 				}
 			}
-		} while (!(input == 'S' || input == 's')); //we continue doing this until they are want to stay
+		} while (!(input == 'S' || input == 's')); 
 	}
 
 	dealer_play(players[0]); //now the dealer plays
@@ -308,228 +302,199 @@ void play(vector<player> & players) {
 	The below method pays everybody out
 	*/
 	for (int i = 1; i < players.size(); i++) {
-		if (score(players[i].hand) > 21) { //if the player busted we tell them
+		if (score(players[i].hand) > 21) { 
 			cout << "You busted! ";
 		}
-		int win = winner(players[0], players[i]); //we figure out who wins
+		int win = winner(players[0], players[i]); 
 		if (win == 1) {
-			players[i].info.wins += 1; //if the player wins we add one to their win record
+			players[i].info.wins += 1; 
 		}
-		payout(players[0], players[i]); //we payout everybody
-		clear(players[i].hand); //we clear out their hands
-		players[i].info.total_played += 1; //adds one to the total played
+		payout(players[0], players[i]);
+		clear(players[i].hand); 
+		players[i].info.total_played += 1; 
 	}
 
-	clear(players[0].hand); //clear out the dealers hand
+	clear(players[0].hand); 
 }
-/**
-The below method clears out a players hand
-*/
+
 void clear(vector<card> & hand) {
 	hand.clear();
 }
-/**
-Creates new accounts for new players
-*/
+
 account create() {
-	account user; //creates a new account
+	account user; 
 	cout << "What is the username you'd like to use?" << endl;
-	fstream input; //so we can take in the input
-	string filename; //what file we will open
+	fstream input; 
+	string filename; 
 
-	/**
-	The below method basically checks to see if a username is available by checking to see if the file can even be open
-	*/
+	
 	do {
-		cin >> user.username; //takes in the username
-		filename = user.username + ".dat"; //adds the extension to the file
-		input.open(filename); //opens the file
-		if (!input.fail()) { //if it didn't fail the name is taken
-			cout << "This username is already taken. Please choose another one." << endl; //we tell the user
+		cin >> user.username; 
+		filename = user.username + ".dat"; 
+		input.open(filename); 
+		if (!input.fail()) { 
+			cout << "This username is already taken. Please choose another one." << endl; 
 		}
-	} while (!input.fail()); //repeat until it doesn't fail
+	} while (!input.fail()); 
 
-	cout << "Please enter a password." << endl; //asks for password
-	cin.ignore(); // so cin will work
-	getline(cin, user.password); //takes in the line b/c it may be more than one word
-	cin.ignore(); //so the next line will wokr
+	cout << "Please enter a password." << endl; 
+	cin.ignore(); 
+	getline(cin, user.password); 
+	cin.ignore(); 
 
-	cout << "Please enter your name." << endl; //asks for the users name
-	getline(cin, user.name); //takes it in
+	cout << "Please enter your name." << endl; 
+	getline(cin, user.name); 
 
-	cout << "Please enter your email address." << endl; //asks for email address
-	cin >> user.email; //takes it in
+	
 
-	cout << "Please enter how much money you'd like to deposit" << endl; //asks for money
-	cin >> user.money; //takes it in
+	cout << "Please enter how much money you'd like to deposit" << endl; 
+	cin >> user.money; 
 
-	user.total_played = 0; //sets these to 0
-	user.wins = 0; //sets these to 0
-	user.win_percentage = 0; //set these to 0
+	user.total_played = 0; 
+	user.wins = 0; 
+	user.win_percentage = 0; 
 
-	input.close(); //closes the input stream
-	return user; //returns the account
+	input.close(); 
+	return user; 
 }
-/**
-For saving account info for when you're done
-*/
+
 void save(player user) {
-	ofstream output; //output stream
-	string filename = user.info.username + ".dat"; //so we know what file to save to
+	ofstream output; 
+	string filename = user.info.username + ".dat"; 
 
-	output.open(filename, ios::out); //we want to erase all previous data
+	output.open(filename, ios::out); 
 
-	if (!output) {//if we can't open output
+	if (!output) {
 		cerr << "Output file will not open and data could not be saved. " << endl;
 	}
 
-	double percent = 0; //for the win percentage
+	double percent = 0; 
 	if (user.info.total_played == 0) {
-		percent = 0; //so we don't divide by zero
+		percent = 0; 
 	}
 	else {
-		percent = ((double)user.info.wins / user.info.total_played) * 100; //win percentage
+		percent = ((double)user.info.wins / user.info.total_played) * 100; 
 	}
-	output << user.info.username << endl << user.info.password << endl << user.info.name << endl << user.info.email << endl << user.info.money << endl << user.info.total_played << endl << user.info.wins << endl << setprecision(3) << percent; //writes the data to the file
+	output << user.info.username << endl << user.info.password << endl << user.info.name << endl << endl << user.info.money << endl << user.info.total_played << endl << user.info.wins << endl << setprecision(3) << percent; //writes the data to the file
 
-	output.close(); //closes the output stream
+	output.close(); 
 }
 
-/**
-For loading account info
-*/
+
 account load() {
-	string username, password; //so we know what the username and password is
-	string filename; //how we will save the data
-	account user; //sets up an account so we can take in the data
-	ifstream input; //file stream
+	string username, password; 
+	string filename; 
+	account user; 
+	ifstream input;
 
-	/**
-	We get the users username and password
-	*/
+	
 	do {
-		cout << "What is your username?" << endl; //asks for username
-		cin >> username; //take it in
-		filename = username + ".dat"; //append the file extension
-		input.open(filename); //opens the file //opens the file
-	} while (input.fail()); //if it fails to open they probably put in the wrong username so we keep doing this until they get it right
-
-	getline(input, user.username); //take in the username
-	getline(input, user.password); //take in the password
+		cout << "What is your username?" << endl; 
+		cin >> username; 
+		filename = username + ".dat"; 
+		input.open(filename); 
+	} while (input.fail()); 
+	getline(input, user.username); 
+	getline(input, user.password); 
 
 	do {
-		cout << "What is your password?" << endl; //asks for the password
-		cin >> password; //takes it in
-	} while (!(password == user.password)); //checks password and keeps checking until the user gets it right
+		cout << "What is your password?" << endl; 
+		cin >> password; 
+	} while (!(password == user.password)); 
 
-	/**
-	Takes in all the user info
-	*/
+	
 	getline(input, user.name);
-	getline(input, user.email);
 	input >> user.money;
 	input >> user.total_played;
 	input >> user.wins;
 	input >> user.win_percentage;
 
-	input.close(); //close out the file
-	return user; //returns the account info
+	input.close(); 
+	return user; 
 }
-/**
-if the dealer is displaying an Ace it asks all the players if they want to take out insurance
-*/
+
 void insurance(vector<player> & players) {
-	int size = players.size(); //gets the size of the vector
+	int size = players.size(); 
 
 	for (int i = 1; i < size; i++) {
 		int bet;
 		players[i].insurance_bet = 0;
-		if ((players[i].info.money - (players[i].bet / 2)) >= 0) { //can the player even make an insurance bet
+		if ((players[i].info.money - (players[i].bet / 2)) >= 0) { 
 			do {
 				cin.ignore();
 				cout << "How much would you like to bet for insurance, up to " << (players[i].bet / 2) << players[i].info.username << "?(0 if you don't want to take out insurance)" << endl; //asks if they want to make an insurance bet
-				cin >> bet; //takes it in
-			} while (!(bet <= (players[i].bet / 2) && bet >= 0)); //continues to do this until they input the right stuff
+				cin >> bet; 
+			} while (!(bet <= (players[i].bet / 2) && bet >= 0)); 
 
-			if (bet != 0) { //did they make a insurance bet
-				players[i].insurance_bet = bet; //we have the insurance bet set
-				players[i].info.money -= bet; //we take it out of their money pile
+			if (bet != 0) {
+				players[i].insurance_bet = bet; 
+				players[i].info.money -= bet; 
 			}
 		}
 	}
 
-	if (score(players[0].hand) == 21) { //the dealer has 21
+	if (score(players[0].hand) == 21) { 
 		for (int i = 1; i < size; i++) {
-			if (players[i].insurance_bet != 0) { //if they took out insurance
-				players[i].info.money += (players[i].insurance_bet * 2); //pays out 2 to 1
-				players[i].insurance_bet = 0; //clears out the insurance bet
+			if (players[i].insurance_bet != 0) { 
+				players[i].info.money += (players[i].insurance_bet * 2);
+				players[i].insurance_bet = 0; 
 			}
 		}
 	}
 	else {
 		for (int i = 1; i < size; i++) {
-			if (players[i].insurance_bet != 0) { //if they took out insurance
-				players[i].insurance_bet = 0; //clears out the insurance bet
+			if (players[i].insurance_bet != 0) { 
+				players[i].insurance_bet = 0; 
 			}
 		}
 	}
 }
 
-/**
-Asks the user what they would like to bet and returns it
-*/
+
 void bet(player & user) {
 	int bet;
 	do {
-		cout << user.info.username << endl; //so we know what player is betting
+		cout << user.info.username << endl; 
 		cout << "How much would you like to bet?" << endl;
-		cin >> bet; //takes in their bet
-	} while (!(bet <= user.info.money)); //repeat until they get it right
-	user.info.money -= bet; //subtract the bet from their money stock pile
-	user.bet = bet; //set their bet
+		cin >> bet; 
+	} while (!(bet <= user.info.money)); 
+	user.info.money -= bet; 
+	user.bet = bet; 
 }
-/**
-If the user chooses to split their cards
-The split hand is completely played here
-*/
+
 
 void payout(player dealer, player & user) {
-	if (winner(dealer, user) == 1) { //if the player won
-		if (score(user.hand) == 21 && hasAce(user.hand) && user.hand.size() == 2) { //if the player has blackjack it's a 3:2 payout
-			user.info.money += ((user.bet * 3) / 2); //I think this is 3:2 odds
-			user.bet = 0; //clears out the bet
+	if (winner(dealer, user) == 1) { 
+		if (score(user.hand) == 21 && hasAce(user.hand) && user.hand.size() == 2) { 
+			user.info.money += ((user.bet * 3) / 2); 
+			user.bet = 0;
 			cout << user.info.username << " won!" << endl;
 		}
 		else {
-			user.info.money += (user.bet * 2); //adds the bet to the players stash of cash
-			user.bet = 0; //clears out the bet
+			user.info.money += (user.bet * 2); 
+			user.bet = 0; 
 			cout << user.info.username << " won!" << endl;
 		}
 	}
-	else if (winner(dealer, user) == 0) { //they tied
-		user.info.money += user.bet; //players money goes back to his pile
-		user.bet = 0; //clears out the bet
+	else if (winner(dealer, user) == 0) { 
+		user.info.money += user.bet; 
+		user.bet = 0; 
 		cout << user.info.username << " tied!" << endl;
 	}
-	else { //the dealer won.
-		user.bet = 0; //player didn't win so all we need to do is clear out.
+	else { 
+		user.bet = 0; 
 		cout << user.info.username << " lost!" << endl;
 	}
 }
-/**
-Figures out if the dealer or the user won
-returns 1 if the player won
-returns -1 if the dealer won
-returns 0 if they tie
-*/
+
 int winner(player dealer, player & user) {
-	if (score(dealer.hand) == score(user.hand)) { //they had a stand off
+	if (score(dealer.hand) == score(user.hand)) { 
 		return 0;
 	}
 	else if (((score(dealer.hand) < score(user.hand)) && (score(user.hand) <= 21)) || (score(dealer.hand) > 21 && score(user.hand) <= 21)) { //user won
 		return 1;
 	}
-	else { //dealer typically wins
+	else { 
 		return -1;
 	}
 }
