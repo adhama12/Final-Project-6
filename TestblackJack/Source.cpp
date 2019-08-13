@@ -19,7 +19,6 @@ enum card_suit {
 
 	struct account { 
 		string name; 
-		string email; 
 		string username; 
 		string password; 
 
@@ -68,9 +67,8 @@ public:
 		cout << "The rules of blackjack: You need to know the card values to know how to play 21. Cards 2-10 are worth the value of the number on the face of the card. Numbered cards are worth the corresponding number indicated on the card. Face cards (those with pictures on them) are worth 10, except for the Ace, which is worth 1 or 11. A picture combined with an Ace is Blackjack (a value of 21). The most important blackjack rule is simple: beat the dealer’s hand without going over 21. If you get 21 points exactly on the deal, that is called a “blackjack.” When you’re dealt a blackjack 21, it’s customary to pay out 3:2 or 2:1. That means you win $300 for ever $200 bet at 3:2, or $200 for every $100 bet at 2:1. Clearly. 2:1 is a better payout. Some casinos have moved this down to 6:5 or 7:5, however, this means you’ll get considerably less money over the long haul. A game that pays 1:1 on any kind of a blackjack is usually not even worth looking at. Whether you’re at a land-based casino or playing online blackjack, the gambling table is always laid out the same way. When you learn how to play 21, you will find each player has his or her own assigned betting area, laid out on the table for each seat position. The playing area includes a space for his/her cards, a betting area, and possibly an insurance field or location for a double down bet. The dealer, likewise, has a designated area for his or her cards, plus a “shoe” containing at least one deck of cards. A shoe is a box that might include an automated shuffler to randomly distribute a card each time the dealer removes one for the deal. Traditional land - based casinos, as well as online blackjack casinos, will use between oneand as many as eight decks per game.This helps to thwart those who might be counting cards or are considered “advantage” players who know how to manipulate blackjack rules.While counting cards is legal, a casino will ban anyone it considers to be a highly skilled player capable of imposing an advantage over the house in one or more casino games. Counting cards essentially is the act of tracking the number of high and low - value cards used to better predict a more likely outcome on a particular hand.Now that you know the basic tools of the game, it’s time to examine how to play.The blackjack rules assign numerical blackjack card values to every card. https://www.blackjack.org/blackjack-rules/ " << endl;
 	};
 	void displayMenu() {
-		cout << "Welcome to the game of Blackjack!" << endl;
-		cout << "Please select an option below." << endl;
-		cout << "1) Rules" << endl;
+		cout << "Welcome to Blackjack!" << endl;
+		cout << "1) Would you like to read the Rules?" << endl;
 		cout << "2) Play" << endl;
 	};
 };
@@ -101,7 +99,7 @@ int main() {
 			int numPlayers; 
 			cin >> numPlayers; 
 			for (int i = 0; i < numPlayers; i++) { 
-				cout << "Are you a new player(N) or existing player(E)?" << endl; 
+				cout << "Insert N for new player or E for existing player." << endl; 
 				cin >> input; 
 
 				if (input == 'N' || input == 'n') { 
@@ -117,7 +115,7 @@ int main() {
 			}
 		}
 		else { 
-			cout << "Please enter 1-10" << endl; 
+			cout << "Please enter how many players are playing. (1-10)" << endl; 
 			menu = 0; 
 			cin.ignore(); 
 		}
@@ -128,7 +126,7 @@ int main() {
 	do {
 		for (int i = 1; i < players.size(); i++) {
 			if (players[i].info.money < 5) { 
-				cout << players[i].info.username << " is currently out of money. Would you like to add some, yes(Y) or (N)?" << endl; //Lets them know they are out of funds and if they want to add some
+				cout << players[i].info.username << " is currently out of money. Would you like to add some, yes(Y) or (N)?" << endl; 
 				cin >> input; 
 				if (input == 'Y' || input == 'y') { 
 					cout << "How much would you like to add?" << endl; 
@@ -196,41 +194,36 @@ void play(vector<player> & players) {
 	bool cont = true; 
 	for (int i = 1; i < players.size(); i++) { 
 		do {
-			if (players[0].hand[1].value == 1 && cont) { //if the dealer has an ace and cont is true - basically this only happens the first time if the dealer doesn't have blackjack
-				insurance(players); //asks player if they want insurance
-				if (score(players[0].hand) == 21) { //checks to see if the dealer has blackjack - we know the first card is an A
-					players[0].hand[0].up = true; //if they do we set the first card to face up
+			if (players[0].hand[1].value == 1 && cont) { 
+				insurance(players); 
+				if (score(players[0].hand) == 21) { 
+					players[0].hand[0].up = true; 
 
 					printCards(players[0].hand); 
 
-					/**
-					The below function cycles through the players and pays them out since they lost
-					*/
+					
 					for (int i = 1; i < players.size(); i++) {
 						payout(players[0], players[i]);
 					}
-					input = 'S'; //sets input to stay since they just lost
+					input = 'S'; 
 				}
-				cont = false; //if the dealer didn't have blackjack this is now false
+				cont = false; 
 			}
-			if (players[0].hand[1].value >= 10 && cont) { //if the dealer has a 10 or face card showing we don't check for insurance but if they have blackjack that's game
-				if (score(players[0].hand) == 21) { //if they have blackjack
-					players[0].hand[0].up = true; //puts the dealers first card face up
+			if (players[0].hand[1].value >= 10 && cont) { 
+				if (score(players[0].hand) == 21) { 
+					players[0].hand[0].up = true; 
 
-					printCards(players[0].hand); //prints the dealers card
-					/**
-					The below function pays out the players since they just lost
-					*/
+					printCards(players[0].hand); 
+					
 					for (int i = 1; i < players.size(); i++) {
 						payout(players[0], players[i]);
 					}
-					input = 'S'; //input is now S since the players lost
+					input = 'S'; 
 				}
-				cont = false; //if the dealer doesn't have 21 we don't care about this anymore
+				cont = false; 
 			}
-			/**
-			As long as the players score is less than 21
-			*/
+			
+			
 			if (score(players[0].hand) <= 21) {
 				
 				if (((players[i].hand[0].value >= 10 && players[i].hand[1].value >= 10) || players[i].hand[0].value == players[i].hand[1].value) && players[i].hand.size() == 2 && score(players[i].hand) == 10) {
@@ -245,23 +238,23 @@ void play(vector<player> & players) {
 					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; 
 					cout << "take a hit(H), or stand(S)?" << endl; 
 				}
-				else { //they can't do anything special
+				else { 
 					cout << players[i].info.username << " score: " << score(players[i].hand) << endl; 
 					cout << "Hit(H) or Stand(S), default is to take a stand?"; 
 				}
-				cin >> input; //takes in the input
+				cin >> input; 
 				switch (input) {
 				
 				case 'H':
-					players[i].hand.push_back(hitMe()); //we give them one more card for their hit
-					printCards(players[i].hand); //reprint their cards
-					cout << players[i].info.username << " score is now " << score(players[i].hand) << endl; //reprint their score
+					players[i].hand.push_back(hitMe()); 
+					printCards(players[i].hand); 
+					cout << players[i].info.username << " score is now " << score(players[i].hand) << endl; 
 					break;
 				default: 
 					input = 's';
 				}
 				if (score(players[i].hand) > 21) { 
-					input = 'S'; //so we can quit
+					input = 'S'; 
 				}
 			}
 		} while (!(input == 'S' || input == 's')); 
@@ -269,11 +262,8 @@ void play(vector<player> & players) {
 
 	dealer_play(players[0]); 
 
-	players[0].hand[0].up = true; //now the everybody can see the first card
-
-	/**
-	The below method shows everybody's score and cards including dealers
-	*/
+	players[0].hand[0].up = true; 
+	
 	for (int i = 0; i < players.size(); i++) {
 		cout << players[i].info.username << " score: " << score(players[i].hand) << " Cards: ";
 		printCards(players[i].hand);
@@ -493,79 +483,61 @@ char printSuit(card new_card) {
 	}
 }
 
-/**
-Prints the cards to the screen
-*/
+
 void printCards(vector<card> hand) {
-	const string CARD_VALUES[14] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "X" }; //makes it easier to print
+	const string CARD_VALUES[14] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "X" }; 
 
 	for (int i = 0; i < hand.size(); i++) {
-		/**cout << "----------" << endl
-		<< "|" << ((hand[i].up)?(hand[i].value):('X')) << ((hand[i].up)?((printSuit(hand[i]))):('X')) << setw(6) << "|" << endl
-		<< "|" << setw(8) << "|" << endl
-		<< "|" << setw(8) << "|" << endl
-		<< "|" << setw(8) << "|" << endl
-		<< "|" << setw(6) << ((hand[i].up)?(hand[i].value):('X')) << ((hand[i].up)?(printSuit(hand[i])):('X')) << "|" << endl
-		<< "----------" << endl;*/
-		if (hand[i].up) { //if the hand is face up we print this
+		
+		if (hand[i].up) { 
 			cout << CARD_VALUES[(hand[i].value - 1)] << printSuit(hand[i]) << " ";
 		}
-		else { //if it's face down we print XX
+		else { 
 			cout << CARD_VALUES[13] << CARD_VALUES[13] << " ";
 		}
 	}
 	cout << endl;
 }
-/**
-Lets us know if the hand has an ace
-*/
+
 bool hasAce(vector<card> hand) {
-	bool has_ace = false; //For now we say there is no ace in the hand
+	bool has_ace = false; 
 	for (int i = 0; i < hand.size(); i++) {
-		if (hand[i].value == 1) { //we have an ace
-			has_ace = true; //so we set this to true
+		if (hand[i].value == 1) { 
+			has_ace = true; 
 		}
 	}
 
 	return has_ace;
 }
-/**
-Gets the score for the user
-We treat Aces initially as 1 and then later check to see if the hand contains an Ace
-*/
+
 int score(vector<card> hand) {
-	int total = 0; //setting up the total value
+	int total = 0; 
 	for (int i = 0; i < hand.size(); i++) {
-		if (hand[i].value >= 10) { //if it's 10, J, Q, or K
-			total += 10; //adds 10 to the toal
+		if (hand[i].value >= 10) { 
+			total += 10; 
 		}
 		else {
-			total += hand[i].value; //adds the value to the total
+			total += hand[i].value; 
 		}
 	}
 
-	if (hasAce(hand) && total <= 11) { //if the hand has an ace and we won't bust
-		total += 10; //add 10
+	if (hasAce(hand) && total <= 11) { 
+		total += 10; 
 	}
 
-	return total; //return the total
+	return total; 
 }
-//gets a new card for the player
-card hitMe() {
-	return deal(); //add another card to the players hand
-}
-/**
-takes in nothing and returns a card
-makes a new card and assigns it a random value between 1-13
-assigns a suit to the card as well
-returns the card
-*/
-card deal() {
-	card new_card; //card we will be returning
 
-	new_card.value = 1 + rand() % 13; //makes sure the random number is between 1 and 13 for the value
+card hitMe() {
+	return deal(); 
+}
+
+card deal() {
+	card new_card; 
+
+	new_card.value = 1 + rand() % 13; 
 	int suit = rand() % 4;
-	switch (suit) { //makes sure the random number is between 1 and 4 for the suit
+	switch (suit) { 
 	case 0:
 		new_card.suit = S;
 		break;
@@ -580,7 +552,10 @@ card deal() {
 		break;
 	}
 
-	new_card.up = true; //we'll change it later if it's the dealers face down card
+	new_card.up = true; 
 
-	return new_card; //returning the card
+	return new_card; 
 }
+//https://codereview.stackexchange.com/questions/78710/oop-blackjack-in-c
+//http://www.cplusplus.com/forum/beginner/236448/
+//https://www.chegg.com/homework-help/questions-and-answers/c-blackjack-game-n-0-10-players-1-computer-player-dealer-player-start-100-computer-player--q39350783
